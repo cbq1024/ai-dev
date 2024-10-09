@@ -10,7 +10,7 @@ def process_xlsx_to_csv(xlsx_file, output_dir):
     """
     df = pd.read_excel(xlsx_file, engine='openpyxl')
 
-    df.columns.str.strip()
+    df.columns = df.columns.str.strip()
     df = df.dropna().drop_duplicates(keep='first')
 
     output_file = output_dir / f"{xlsx_file.stem}.csv"
