@@ -1,12 +1,11 @@
 import openai
 import os
 
-openai.api_key = os.environ['EPHONE_AI_KEY']
-openai.base_url  = os.environ['EPHONE_AI_URL']
+openai.api_key = os.environ['OPENAI_API_KEY']
 openai.default_headers = {"x-foo": "true"}
 
 completion = openai.chat.completions.create(
-    model="gpt-3.5-turbo",
+    model="gpt-4o-mini",
     messages=[
         {
             "role": "user",
@@ -14,4 +13,4 @@ completion = openai.chat.completions.create(
         },
     ],
 )
-print(completion)
+print(completion.choices[0].message.content)
