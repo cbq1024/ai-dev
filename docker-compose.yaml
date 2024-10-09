@@ -1,7 +1,8 @@
 services:
   redis:
+    container_name: redis
+    hostname: redis
     image: "redis:alpine"
-    container_name: redis_server
     ports:
       - "${REDIS_EXPOSE_PORT}:6379"
     networks:
@@ -9,14 +10,18 @@ services:
     restart: unless-stopped
 
   mongodb:
+    container_name: mongodb
+    hostname: mongodb
     image: "mongo:latest"
-    container_name: mongodb_server
+    environment:
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
     ports:
       - "${MONGODB_EXPOSE_PORT}:27017"
-    networks:
-      - app-network
     volumes:
       - mongo_data:/data/db
+      - ./mongo/init:/docker-entrypoint-initdb.d
+    networks:
+      - app-network
     restart: unless-stopped
 
   database:
@@ -31,7 +36,7 @@ services:
       - "${DATABASE_EXPOSE_PORT}:5432"
     volumes:
       - database_data:/var/lib/postgresql/data
-      - ${DATABASE_INIT}:/docker-entrypoint-initdb.d
+      - ./db/init:/docker-entrypoint-initdb.d
     networks:
       - app-network
     restart: unless-stopped
