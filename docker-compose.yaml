@@ -1,0 +1,45 @@
+services:
+  redis:
+    image: "redis:alpine"
+    container_name: redis_server
+    ports:
+      - "${REDIS_EXPOSE_PORT}:6379"
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  mongodb:
+    image: "mongo:latest"
+    container_name: mongodb_server
+    ports:
+      - "${MONGODB_EXPOSE_PORT}:27017"
+    networks:
+      - app-network
+    volumes:
+      - mongo_data:/data/db
+    restart: unless-stopped
+
+  database:
+    container_name: database
+    hostname: database
+    image: 'postgres:15.4'
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "${DATABASE_EXPOSE_PORT}:5432"
+    volumes:
+      - database_data:/var/lib/postgresql/data
+      - ${DATABASE_INIT}:/docker-entrypoint-initdb.d
+    networks:
+      - app-network
+    restart: unless-stopped
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mongo_data:
+  database_data:
