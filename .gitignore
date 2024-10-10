@@ -163,3 +163,4 @@ cython_debug/
 
 *.zip
 *.xlsx
+/playground/book-recommend-by-spark-for-linziyu/temp/
