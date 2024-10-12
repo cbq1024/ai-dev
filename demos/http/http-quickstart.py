@@ -3,7 +3,7 @@ import os
 
 auth = 'Bearer '
 try:
-    auth += os.environ['EPHONE_AI_KEY']
+    auth += os.environ['EPHONE_API_KEY']
 except KeyError:
     print("No API key provided")
 
