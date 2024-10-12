@@ -1,0 +1,5 @@
+{
+    "scripts": {
+        "start": "streamlit run uber_pickups.py"
+    }
+}
